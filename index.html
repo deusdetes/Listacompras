@@ -9,7 +9,6 @@
     <style>
         :root {
             --primary: #10b981;
-            --primary-hover: #059669;
             --danger: #ef4444;
             --bg: #f3f4f6;
             --card: #ffffff;
@@ -41,162 +40,114 @@
         }
 
         header {
-            padding: 30px 20px 20px;
+            padding: 20px;
             text-align: center;
             border-bottom: 1px solid var(--border);
         }
 
-        h1 { 
-            margin: 0; 
-            font-size: 1.5rem; 
-            font-weight: 800; 
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+        h1 { margin: 0; font-size: 1.4rem; color: var(--primary); display: flex; align-items: center; justify-content: center; gap: 8px; }
+        
+        .date-display { 
+            font-size: 0.85rem; 
+            color: var(--text-muted); 
+            margin-top: 5px;
+            font-weight: 500;
+            text-transform: capitalize;
         }
 
-        .mic-section {
-            padding: 20px;
+        .action-bar {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
             position: sticky;
             top: 0;
             background: var(--card);
             z-index: 10;
+            border-bottom: 1px solid var(--border);
         }
 
         #btn-voice {
-            width: 100%;
-            padding: 16px;
+            flex: 1;
+            padding: 12px;
             border: none;
-            border-radius: 12px;
+            border-radius: 10px;
             background: var(--primary);
             color: white;
-            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);
+            gap: 8px;
         }
 
-        #btn-voice.listening {
-            background: var(--danger);
-            animation: pulse 1.5s infinite;
-        }
+        #btn-voice.listening { background: var(--danger); animation: pulse 1.5s infinite; }
 
-        .status-badge {
-            display: block;
-            text-align: center;
-            font-size: 0.75rem;
-            margin-top: 10px;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        .list-container {
-            flex: 1;
-            padding: 0 20px 40px;
-        }
-
-        .category-group { margin-top: 25px; }
-
-        .category-header {
+        #btn-clear-all {
+            width: 42px;
+            height: 42px;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            background: #fff;
+            color: var(--danger);
+            cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 12px;
-            padding-left: 4px;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s;
         }
 
-        ul { list-style: none; padding: 0; margin: 0; }
+        #btn-clear-all:active { transform: scale(0.9); background: #fef2f2; }
 
+        .list-container { flex: 1; padding: 0 20px 40px; }
+        
+        .category-group { margin-top: 15px; border-radius: 10px; }
+        
+        .category-header { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between;
+            font-size: 0.8rem; 
+            font-weight: 800; 
+            color: var(--text-muted); 
+            padding: 10px 5px;
+            border-bottom: 1px solid var(--border);
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .collapsed ul { display: none; }
+        .chevron { transition: transform 0.3s; }
+        .collapsed .chevron { transform: rotate(-90deg); }
+
+        ul { list-style: none; padding: 8px 0 0 0; margin: 0; }
+        
         li {
             background: #fff;
             border: 1px solid var(--border);
             border-radius: 12px;
             margin-bottom: 8px;
-            padding: 14px;
+            padding: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: all 0.2s ease;
         }
 
-        .item-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex: 1;
-            cursor: pointer;
-        }
+        .item-left { display: flex; align-items: center; gap: 10px; flex: 1; }
+        .check-box { width: 22px; height: 22px; border: 2px solid var(--border); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: transparent; }
+        .done .check-box { background: var(--primary); border-color: var(--primary); color: white; }
+        .qty { font-weight: 700; color: var(--primary); font-size: 0.8rem; background: #ecfdf5; padding: 2px 6px; border-radius: 4px; }
+        .item-name { font-weight: 500; text-transform: capitalize; }
+        .done .item-name { text-decoration: line-through; color: var(--text-muted); }
 
-        .check-box {
-            width: 24px;
-            height: 24px;
-            border: 2px solid var(--border);
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: transparent;
-            transition: all 0.2s;
-        }
-
-        .done .check-box {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: white;
-        }
-
-        .qty {
-            font-weight: 700;
-            color: var(--primary);
-            font-size: 0.9rem;
-            background: #ecfdf5;
-            padding: 2px 8px;
-            border-radius: 6px;
-        }
-
-        .item-name {
-            font-weight: 500;
-            font-size: 1rem;
-            color: var(--text-main);
-        }
-
-        .done .item-name {
-            text-decoration: line-through;
-            color: var(--text-muted);
-        }
-
-        .btn-delete {
-            color: #d1d5db;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 4px;
-            transition: color 0.2s;
-        }
-
-        .btn-delete:hover { color: var(--danger); }
+        .btn-delete { color: #d1d5db; background: none; border: none; padding: 5px; }
 
         @keyframes pulse {
             0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
-            70% { box-shadow: 0 0 0 12px rgba(239, 68, 68, 0); }
+            70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
             100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--text-muted);
         }
     </style>
 </head>
@@ -204,60 +155,80 @@
 
 <div class="app-container">
     <header>
-        <h1><i data-lucide="shopping-cart"></i> Lista de compras</h1>
-        <p>Organize seu mercado com voz</p>
+        <h1><i data-lucide="shopping-basket"></i> Minha Lista</h1>
+        <div class="date-display" id="current-date"></div>
     </header>
 
-    <div class="mic-section">
+    <div class="action-bar">
         <button id="btn-voice">
-            <i data-lucide="mic" id="mic-icon"></i>
-            <span id="btn-text">Ativar Voz</span>
+            <i data-lucide="mic"></i>
+            <span id="btn-text">Falar Item</span>
         </button>
-        <span id="status-label" class="status-badge">Microfone Inativo</span>
+        <button id="btn-clear-all" title="Limpar tudo">
+            <i data-lucide="trash-2" size="18"></i>
+        </button>
     </div>
 
-    <div class="list-container" id="list-container">
-        </div>
+    <div class="list-container" id="list-container"></div>
 </div>
 
 <script>
-    // Configurações e Categorias
     const CATEGORIAS = {
-        'Hortifrúti': { icon: 'leaf', keywords: ['maçã', 'banana', 'tomate', 'alface', 'cebola', 'batata', 'limão', 'laranja'] },
-        'Açougue': { icon: 'beef', keywords: ['carne', 'frango', 'peixe', 'picanha', 'bife', 'linguiça'] },
-        'Laticínios': { icon: 'milk', keywords: ['leite', 'queijo', 'iogurte', 'manteiga', 'ovos'] },
-        'Padaria': { icon: 'croissant', keywords: ['pão', 'café', 'açúcar', 'biscoito', 'bolo'] },
-        'Limpeza': { icon: 'droplet', keywords: ['detergente', 'sabão', 'álcool', 'cloro', 'papel'] }
+        '1. Hortifruti': { icon: 'leaf', keywords: ['alface', 'rúcula', 'espinafre', 'batata', 'cenoura', 'tomate', 'cebola', 'abobrinha', 'banana', 'maçã', 'laranja', 'limão', 'mamão', 'morango', 'alho', 'salsa', 'cebolinha', 'folhas', 'legumes', 'frutas'] },
+        '2. Açougue e Proteínas': { icon: 'beef', keywords: ['carne', 'moída', 'bife', 'frango', 'peito', 'coxa', 'porco', 'bisteca', 'lombo', 'peixe', 'ovos'] },
+        '3. Mercearia e Básicos': { icon: 'package', keywords: ['arroz', 'feijão', 'açúcar', 'sal', 'café', 'chá', 'macarrão', 'molho', 'óleo', 'azeite', 'vinagre', 'farinha', 'trigo', 'biscoito', 'bolacha', 'achocolatado'] },
+        '4. Frios e Laticínios': { icon: 'milk', keywords: ['leite', 'queijo', 'mussarela', 'presunto', 'peru', 'manteiga', 'margarina', 'iogurte'] },
+        '5. Padaria': { icon: 'croissant', keywords: ['pão', 'francês', 'forma', 'integral', 'torrada', 'bolo'] },
+        '6. Limpeza e Utilidades': { icon: 'droplet', keywords: ['detergente', 'sabão', 'amaciante', 'água sanitária', 'desinfetante', 'esponja', 'saco de lixo', 'papel toalha', 'guardanapo'] },
+        '7. Higiene Pessoal': { icon: 'user', keywords: ['papel higiênico', 'sabonete', 'creme dental', 'shampoo', 'condicionador', 'desodorante'] },
+        '8. Outros & Casa': { icon: 'home', keywords: ['lâmpada', 'pilha', 'vela', 'fósforo', 'filtro', 'fita'] }
     };
 
     const NUMEROS = { 'um': 1, 'uma': 1, 'dois': 2, 'duas': 2, 'três': 3, 'quatro': 4, 'cinco': 5 };
 
-    let shoppingList = JSON.parse(localStorage.getItem('marketList_v7')) || [];
+    let shoppingList = JSON.parse(localStorage.getItem('marketList_v11')) || [];
+    let collapsedCategories = JSON.parse(localStorage.getItem('collapsed_v11')) || [];
     let isMicActive = false;
 
-    const btn = document.getElementById('btn-voice');
-    const statusLabel = document.getElementById('status-label');
+    // Atualizar Data
+    const dt = new Date();
+    const meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+    document.getElementById('current-date').innerText = `Lista de ${meses[dt.getMonth()]} de ${dt.getFullYear()}`;
+
+    const btnVoice = document.getElementById('btn-voice');
+    const btnClearAll = document.getElementById('btn-clear-all');
     const container = document.getElementById('list-container');
 
-    // Inicializar Voz
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     const recognition = new SpeechRecognition();
     recognition.lang = 'pt-BR';
     recognition.continuous = true;
 
-    btn.addEventListener('click', () => {
+    function stopMic() {
+        recognition.stop();
+        isMicActive = false;
+        btnVoice.classList.remove('listening');
+        document.getElementById('btn-text').innerText = 'Falar Item';
+    }
+
+    btnVoice.addEventListener('click', () => {
         if (!isMicActive) {
             recognition.start();
             isMicActive = true;
-            updateUI(true);
+            btnVoice.classList.add('listening');
+            document.getElementById('btn-text').innerText = 'Ouvindo...';
         } else {
-            recognition.stop();
-            isMicActive = false;
-            updateUI(false);
+            stopMic();
         }
     });
 
-    recognition.onend = () => { if (isMicActive) recognition.start(); };
+    btnClearAll.addEventListener('click', () => {
+        if (shoppingList.length > 0 && confirm("Limpar toda a lista?")) {
+            shoppingList = [];
+            stopMic();
+            render();
+        }
+    });
 
     recognition.onresult = (event) => {
         const text = event.results[event.results.length - 1][0].transcript.toLowerCase().trim();
@@ -265,65 +236,63 @@
     };
 
     function processInput(input) {
-        if (input.includes("limpar lista")) {
-            if(confirm("Zerar lista?")) shoppingList = [];
-        } else {
-            const regex = /^(\d+|um|uma|dois|duas|três|quatro|cinco)\s+(.*)/i;
-            const match = input.match(regex);
-            let qtd = 1, nome = input;
+        const regex = /^(\d+|um|uma|dois|duas|três|quatro|cinco)\s+(.*)/i;
+        const match = input.match(regex);
+        let qtd = 1, nome = input;
 
-            if (match) {
-                qtd = NUMEROS[match[1]] || parseInt(match[1]);
-                nome = match[2];
-            }
-            nome = nome.replace(/^(os|as|o|a|uns|umas)\s+/i, "").trim();
-            if (nome) addItem(nome, qtd);
+        if (match) {
+            qtd = NUMEROS[match[1]] || parseInt(match[1]);
+            nome = match[2];
         }
-        render();
+        nome = nome.replace(/^(os|as|o|a|uns|umas)\s+/i, "").trim();
+        if (nome) {
+            const idx = shoppingList.findIndex(i => i.nome === nome);
+            if (idx > -1) shoppingList[idx].quantidade += qtd;
+            else shoppingList.push({ nome, quantidade: qtd, comprado: false });
+            render();
+        }
     }
 
-    function addItem(nome, quantidade) {
-        const index = shoppingList.findIndex(i => i.nome === nome);
-        if (index > -1) {
-            shoppingList[index].quantidade += quantidade;
-            shoppingList[index].comprado = false;
-        } else {
-            shoppingList.push({ nome, quantidade, comprado: false });
-        }
+    function toggleCategory(cat) {
+        if (collapsedCategories.includes(cat)) collapsedCategories = collapsedCategories.filter(c => c !== cat);
+        else collapsedCategories.push(cat);
+        localStorage.setItem('collapsed_v11', JSON.stringify(collapsedCategories));
         render();
     }
 
     function render() {
         container.innerHTML = '';
         if (shoppingList.length === 0) {
-            container.innerHTML = '<div class="empty-state">Sua lista está vazia. Comece a falar!</div>';
+            container.innerHTML = '<div style="text-align:center; padding:50px; color:#999;">Nenhum item adicionado</div>';
         } else {
             const grouped = shoppingList.reduce((acc, obj) => {
-                const cat = Object.keys(CATEGORIAS).find(c => CATEGORIAS[c].keywords.some(k => obj.nome.includes(k))) || 'Geral';
+                const cat = Object.keys(CATEGORIAS).find(c => CATEGORIAS[c].keywords.some(k => obj.nome.includes(k))) || '9. Diversos';
                 if (!acc[cat]) acc[cat] = [];
                 acc[cat].push(obj);
                 return acc;
             }, {});
 
-            Object.keys(grouped).forEach(cat => {
-                const icon = CATEGORIAS[cat]?.icon || 'package';
+            Object.keys(grouped).sort().forEach(cat => {
+                const isCollapsed = collapsedCategories.includes(cat);
                 const section = document.createElement('div');
-                section.className = 'category-group';
-                section.innerHTML = `<div class="category-header"><i data-lucide="${icon}" size="16"></i>${cat}</div>`;
-                
+                section.className = `category-group ${isCollapsed ? 'collapsed' : ''}`;
+                section.innerHTML = `
+                    <div class="category-header" onclick="toggleCategory('${cat}')">
+                        <span><i data-lucide="${CATEGORIAS[cat]?.icon || 'box'}" size="14"></i> ${cat}</span>
+                        <i data-lucide="chevron-down" class="chevron" size="16"></i>
+                    </div>
+                `;
                 const ul = document.createElement('ul');
                 grouped[cat].forEach(item => {
                     const li = document.createElement('li');
                     if (item.comprado) li.className = 'done';
                     li.innerHTML = `
                         <div class="item-left" onclick="toggleCheck('${item.nome}')">
-                            <div class="check-box"><i data-lucide="check" size="16"></i></div>
+                            <div class="check-box"><i data-lucide="check" size="14"></i></div>
                             <span class="qty">${item.quantidade}x</span>
                             <span class="item-name">${item.nome}</span>
                         </div>
-                        <button class="btn-delete" onclick="removeItem('${item.nome}')">
-                            <i data-lucide="trash-2" size="18"></i>
-                        </button>
+                        <button class="btn-delete" onclick="removeItem('${item.nome}')"><i data-lucide="x" size="18"></i></button>
                     `;
                     ul.appendChild(li);
                 });
@@ -331,26 +300,19 @@
                 container.appendChild(section);
             });
         }
-        lucide.createIcons(); // Renderiza os ícones novos
-        localStorage.setItem('marketList_v7', JSON.stringify(shoppingList));
+        lucide.createIcons();
+        localStorage.setItem('marketList_v11', JSON.stringify(shoppingList));
     }
 
     function toggleCheck(nome) {
-        const i = shoppingList.find(x => x.nome === nome);
-        if (i) i.comprado = !i.comprado;
+        const item = shoppingList.find(i => i.nome === nome);
+        if (item) item.comprado = !item.comprado;
         render();
     }
 
     function removeItem(nome) {
-        shoppingList = shoppingList.filter(x => x.nome !== nome);
+        shoppingList = shoppingList.filter(i => i.nome !== nome);
         render();
-    }
-
-    function updateUI(active) {
-        btn.classList.toggle('listening', active);
-        document.getElementById('btn-text').innerText = active ? 'Parar Microfone' : 'Ativar Voz';
-        statusLabel.innerText = active ? 'OUVINDO ATIVAMENTE...' : 'Microfone Inativo';
-        statusLabel.style.color = active ? 'var(--danger)' : 'var(--text-muted)';
     }
 
     render();
